@@ -24,6 +24,11 @@ class Hotel:
             return False
 
 
+class SpaHotel(Hotel):
+    def book_spa_package(self):
+        pass
+
+
 class ReservationTicket:
     def __init__(self, customer_name, hotel_object):
         self.customer_name = name
@@ -60,11 +65,6 @@ class SecureCreditCard(CreditCard):
             return True
         else:
             return False
-
-
-class SpaHotel(Hotel):
-    def book_spa_package(self):
-        pass
 
 
 class SpaReservationTicket:
@@ -108,9 +108,11 @@ if hotel.available():
     else:
         print('There was a problem with your payment')
     SPA_OPTION = input('Do you want to book a spa package? ')
+    user_name = name
     spa_reservation_ticket = SpaReservationTicket(
-        customer_name=name, hotel_object=hotel, spa_option=SPA_OPTION)
+        customer_name=user_name, hotel_object=hotel, spa_option=SPA_OPTION)
     if spa_reservation_ticket.user_choice():
+        hotel.book_spa_package()
         print(spa_reservation_ticket.generate())
 else:
     print('Hotel is not free.')
