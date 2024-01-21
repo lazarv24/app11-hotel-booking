@@ -54,16 +54,45 @@ class CreditCard:
 
 class SecureCreditCard(CreditCard):
     def authenticate(self, given_password):
-        password = df_cards_security.loc[df_cards_security['number'] == self.number, 'password'].squeeze()
+        password = df_cards_security.loc[
+            df_cards_security['number'] == self.number, 'password'].squeeze()
         if password == given_password:
             return True
         else:
             return False
 
 
+class SpaHotel(Hotel):
+    def book_spa_package(self):
+        pass
+
+
+class SpaReservationTicket:
+    def __init__(self, customer_name, hotel_object, spa_option):
+        self.customer_name = name
+        self.hotel = hotel_object
+        self.spa_option = spa_option
+
+    def user_choice(self):
+        while True:
+            if self.spa_option == 'yes':
+                return True
+            elif self.spa_option == 'no':
+                return False
+
+    def generate(self):
+        message = f'''
+        Thank you for your SPA reservation!
+        Here are your SPA booking data:
+        Name: {self.customer_name}
+        Hotel name: {self.hotel.name}
+        '''
+        return message
+
+
 print(df)
 hotel_id = input('Enter the id of the hotel: ')
-hotel = Hotel(hotel_id)
+hotel = SpaHotel(hotel_id)
 if hotel.available():
     credit_card = SecureCreditCard(number='1234567890123456')
     if credit_card.validate(expiration='12/26',
@@ -78,5 +107,10 @@ if hotel.available():
             print('Credit card authentication failed.')
     else:
         print('There was a problem with your payment')
+    SPA_OPTION = input('Do you want to book a spa package? ')
+    spa_reservation_ticket = SpaReservationTicket(
+        customer_name=name, hotel_object=hotel, spa_option=SPA_OPTION)
+    if spa_reservation_ticket.user_choice():
+        print(spa_reservation_ticket.generate())
 else:
     print('Hotel is not free.')
